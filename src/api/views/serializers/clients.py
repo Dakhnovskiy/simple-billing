@@ -6,11 +6,11 @@ class ClientBase(BaseModel):
     name: str = Field(min_length=1, max_length=256)
 
 
-class ClientCreate(ClientBase):
+class ClientCreateRequest(ClientBase):
     pass
 
 
-class ClientInfo(ClientBase):
+class ClientCreateResponse(ClientBase):
     id: int
     wallet_id: int = Field(alias='walletId')
     
