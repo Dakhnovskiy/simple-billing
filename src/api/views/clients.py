@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from src.api.views.serializers import ClientCreate, ClientInfo
+from src.clients import create_client_with_wallet
 
 clients_views = APIRouter()
 
@@ -9,9 +10,6 @@ clients_views = APIRouter()
 async def create_client(
         client: ClientCreate
 ):
-    return {
-        'login': 'aa',
-        'name': 'qq',
-        'wallet_id': 123,
-        'id': 12
-    }
+    client_data = await create_client_with_wallet(client.login, client.name)
+
+    return client_data

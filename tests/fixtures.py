@@ -81,5 +81,29 @@ import pytest
     ],
     ids=['missed_body', 'missed_login', 'missed_name', 'empty_login', 'empty_name', 'null_login', 'null_name']
 )
-def create_clients_bad_body(request):
+def create_clients_invalid_body(request):
+    return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'request_body': {'login': 'myLogin', 'name': 'Иванов Иван'},
+            'response_body': {
+                'id': 1593,
+                'walletId': 123,
+                'login': 'myLogin',
+                'name': 'Иванов Иван'
+            },
+            'mock_data': {
+                'id': 1593,
+                'wallet_id': 123,
+                'login': 'myLogin',
+                'name': 'Иванов Иван'
+            },
+        },
+    ],
+    ids=['create_client_and_wallet']
+)
+def create_clients_valid_body(request):
     return request.param

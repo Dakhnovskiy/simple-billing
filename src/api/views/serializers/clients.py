@@ -12,5 +12,9 @@ class ClientCreate(ClientBase):
 
 class ClientInfo(ClientBase):
     id: int
-    wallet_id: int
+    wallet_id: int = Field(alias='walletId')
+    
+    class Config:
+        allow_population_by_field_name = True
+
 
