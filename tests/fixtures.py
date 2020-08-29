@@ -1,0 +1,85 @@
+import pytest
+
+
+@pytest.fixture(
+    params=[
+        {
+            'request_body': {},
+            'response_body': {
+                'detail': [
+                    {'loc': ['body', 'login'], 'msg': 'field required', 'type': 'value_error.missing'},
+                    {'loc': ['body', 'name'], 'msg': 'field required', 'type': 'value_error.missing'}
+                ]
+            }
+        },
+        {
+            'request_body': {'name': 'Иванов Иван'},
+            'response_body': {
+                'detail': [
+                    {'loc': ['body', 'login'], 'msg': 'field required', 'type': 'value_error.missing'},
+                ]
+            }
+        },
+        {
+            'request_body': {'login': 'master'},
+            'response_body': {
+                'detail': [
+                    {'loc': ['body', 'name'], 'msg': 'field required', 'type': 'value_error.missing'},
+                ]
+            }
+        },
+        {
+            'request_body': {'login': '', 'name': 'Иванов'},
+            'response_body': {
+                'detail': [
+                    {
+                        'loc': ['body', 'login'],
+                        'msg': 'ensure this value has at least 1 characters',
+                        'type': 'value_error.any_str.min_length',
+                        'ctx': {'limit_value': 1}
+                    }
+                ]
+            }
+        },
+        {
+            'request_body': {'login': 'myLogin', 'name': ''},
+            'response_body': {
+                'detail': [
+                    {
+                        'loc': ['body', 'name'],
+                        'msg': 'ensure this value has at least 1 characters',
+                        'type': 'value_error.any_str.min_length',
+                        'ctx': {'limit_value': 1}
+                    }
+                ]
+            }
+        },
+        {
+            'request_body': {'login': None, 'name': 'Иванов'},
+            'response_body': {
+                'detail': [
+                    {
+                        'loc': ['body', 'login'],
+                        'msg': 'none is not an allowed value',
+                        'type': 'type_error.none.not_allowed'
+                    }
+                ]
+            }
+        },
+        {
+            'request_body': {'login': 'myLogin', 'name': None},
+            'response_body': {
+                'detail': [
+                    {
+                        'loc': ['body', 'name'],
+                        'msg': 'none is not an allowed value',
+                        'type': 'type_error.none.not_allowed'
+                    }
+                ]
+            }
+        },
+    ],
+    ids=['missed_body', 'missed_login', 'missed_name', 'empty_login', 'empty_name', 'null_login', 'null_name']
+)
+def create_clients_bad_body(request):
+    return request.param
