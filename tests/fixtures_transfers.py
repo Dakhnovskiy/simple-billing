@@ -177,7 +177,7 @@ def create_transfers_wallet_not_found(request):
     params=[
         {
             'request_body': {'walletFromId': 123, 'walletToId': 1234, 'amount': 50.34},
-            'response_body': {'detail': 'There are not enough balance in wallet id 1234'}
+            'response_body': {'detail': 'There are not enough balance in wallet id 123'}
         },
     ],
     ids=['create_transfers_not_enough_balance']

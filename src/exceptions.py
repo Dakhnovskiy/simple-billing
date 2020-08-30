@@ -5,7 +5,7 @@ class BillingOperationException(Exception):
 
 
 class WalletExceptions(BillingOperationException):
-    ERROR_MESSAGE = ''
+    ERROR_MESSAGE: str
 
     def __init__(self, wallet_id: int, *args):
         super().__init__(self.ERROR_MESSAGE.format(wallet_id=wallet_id), *args)

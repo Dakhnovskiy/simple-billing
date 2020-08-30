@@ -7,7 +7,7 @@ from fastapi import status
 
 from src.exceptions import WalletNotFound, NotEnoughBalance
 from tests.fixtures_transfers import create_transfers_invalid_body, create_transfers_valid_body, \
-    create_transfers_wallet_not_found
+    create_transfers_wallet_not_found, create_transfers_not_enough_balance
 
 
 @pytest.mark.asyncio
