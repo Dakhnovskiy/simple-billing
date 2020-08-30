@@ -7,4 +7,4 @@ Simple billing service
 ## Запуск тестов
 `docker-compose -f docker-compose-test.yml build`
 
-`docker-compose -f docker-compose-test.yml run --rm --entrypoint "python -m pytest" app`
+`docker-compose -f docker-compose-test.yml run --rm --entrypoint "python -m pytest -W ignore::DeprecationWarning" app`
