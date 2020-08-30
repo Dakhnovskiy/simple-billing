@@ -8,6 +8,7 @@ from starlette.responses import JSONResponse
 from src.api.views.clients import clients_views
 from src.api.views.resupplies import resupplies_views
 from src.api.views.transfers import transfers_views
+from src.app.db import db
 from src.app.logging_config import LOGGING_CONFIG
 from src.exceptions import BillingOperationException
 
@@ -15,6 +16,16 @@ logging.config.dictConfig(LOGGING_CONFIG)
 
 app = FastAPI()
 
+
+@app.on_event('startup')
+async def startup():
+    await db.connect()
+
+
+@app.on_event('shutdown')
+async def shutdown():
+    await db.disconnect()
+    
 
 @app.exception_handler(500)
 async def on_500(request: Request, exc: Exception):
