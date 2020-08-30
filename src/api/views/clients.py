@@ -7,7 +7,7 @@ clients_views = APIRouter()
 
 
 @clients_views.post('/clients', response_model=ClientCreateResponse, status_code=201)
-async def create_client(
+async def create_client_handler(
         client: ClientCreateRequest
 ):
     client_data = await create_client_with_wallet(client.login, client.name)
