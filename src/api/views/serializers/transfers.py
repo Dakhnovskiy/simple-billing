@@ -1,7 +1,7 @@
 from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel, Field, condecimal
+from pydantic import BaseModel, Field, condecimal, root_validator
 
 
 class TransferCreateBase(BaseModel):
@@ -14,7 +14,16 @@ class TransferCreateBase(BaseModel):
 
 
 class TransferCreateRequest(TransferCreateBase):
-    pass
+
+    @root_validator
+    def check_wallets_identifiers(cls, values):
+        if values.get('wallet_from_id') is None or values.get('wallet_to_id') is None:
+            return values
+
+        if values.get('wallet_from_id') == values.get('wallet_to_id'):
+            raise ValueError('wallets must be different')
+
+        return values
 
 
 class TransferCreateResponse(TransferCreateBase):
