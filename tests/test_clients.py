@@ -5,7 +5,7 @@ from asynctest import CoroutineMock
 from httpx import AsyncClient
 from fastapi import status
 
-from tests.fixtures import create_clients_invalid_body, create_clients_valid_body
+from tests.fixtures_clients import create_clients_invalid_body, create_clients_valid_body
 
 
 @pytest.mark.asyncio
