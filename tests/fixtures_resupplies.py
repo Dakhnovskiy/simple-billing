@@ -115,3 +115,16 @@ def create_resupplies_invalid_body(request):
 )
 def create_resupplies_valid_body(request):
     return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'request_body': {'walletId': 123, 'amount': 50.34},
+            'response_body': {'detail': 'Wallet id 123 not found'}
+        },
+    ],
+    ids=['create_resupply_wallet_not_found']
+)
+def create_resupplies_wallet_not_found(request):
+    return request.param
