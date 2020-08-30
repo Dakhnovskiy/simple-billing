@@ -111,7 +111,7 @@ def create_resupplies_invalid_body(request):
             },
         },
     ],
-    ids=['create_client_and_wallet']
+    ids=['create_resupply']
 )
 def create_resupplies_valid_body(request):
     return request.param
