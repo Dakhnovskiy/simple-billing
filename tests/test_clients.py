@@ -9,7 +9,7 @@ from tests.fixtures import create_clients_invalid_body, create_clients_valid_bod
 
 
 @pytest.mark.asyncio
-async def test_create_client_with_bad_body(client: AsyncClient, create_clients_invalid_body):
+async def test_create_client_with_invalid_body(client: AsyncClient, create_clients_invalid_body):
     response = await client.post('/clients', json=create_clients_invalid_body['request_body'])
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json() == create_clients_invalid_body['response_body']
