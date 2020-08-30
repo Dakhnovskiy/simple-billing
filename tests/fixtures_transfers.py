@@ -107,9 +107,9 @@ import pytest
             'response_body': {
                 'detail': [
                     {
-                        "loc": ["body", "__root__"],
-                        "msg": "wallets must be different",
-                        "type": "value_error"
+                        'loc': ['body', '__root__'],
+                        'msg': 'wallets must be different',
+                        'type': 'value_error'
                     }
                 ]
             }
