@@ -1,6 +1,19 @@
 version: '2.1'
 
 services:
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=billing
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   app:
     build:
       context: .
@@ -12,3 +25,11 @@ services:
     environment:
       - ENVIRONMENT=LOCAL
       - LOG_LEVEL=INFO
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASSWORD=secret
+      - PG_DB_NAME=billing
+    depends_on:
+      postgres:
+        condition: service_healthy
