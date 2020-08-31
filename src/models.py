@@ -2,11 +2,11 @@ from datetime import datetime
 from decimal import Decimal
 
 import sqlalchemy as sa
-from asyncpg import UniqueViolationError
+from asyncpg import UniqueViolationError, CheckViolationError
 from sqlalchemy import CheckConstraint
 
 from src.app.db import metadata, db
-from src.exceptions import ClientLoginAlreadyExists, WalletNotFound
+from src.exceptions import ClientLoginAlreadyExists, WalletNotFound, NotEnoughBalance
 
 clients = sa.Table(
     'clients',
@@ -63,7 +63,14 @@ class Wallet:
         query = wallets.update().values(balance=wallets.c.balance + amount).where(wallets.c.id == wallet_id).returning(
             wallets.c.balance
         )
-        balance = await db.execute(query)
+
+        try:
+            balance = await db.execute(query)
+        except CheckViolationError as exc:
+            if 'check_positive_balance' in exc.message:
+                raise NotEnoughBalance(wallet_id) from exc
+            raise
+
         if balance is None:
             raise WalletNotFound(wallet_id)
         return balance
@@ -129,4 +136,31 @@ async def make_resupply_in_db(transaction_number: str, wallet_id: int, amount: D
         'amount': amount,
         'wallet_balance': new_balance,
         'transaction_number': transaction_number
+    }
+
+
+@db.transaction()
+async def make_transfer_in_db(transaction_number: str, wallet_from_id: int, wallet_to_id: int, amount: Decimal):
+    """
+    Transfer funds from one wallet to another in database
+    :param transaction_number: transaction number
+    :param wallet_from_id: wallet(from) identifier
+    :param wallet_to_id: wallet(to) identifier
+    :param amount: amount
+    :return: transfer info
+    """
+
+    transaction_id = await Transaction.create(transaction_number)
+    new_balance_wallet_from = await Wallet.change_balance(wallet_from_id, -amount)
+    new_balance_wallet_to = await Wallet.change_balance(wallet_to_id, amount)
+    await WalletsOperation.create(wallet_from_id, transaction_id, -amount)
+    await WalletsOperation.create(wallet_to_id, transaction_id, amount)
+
+    return {
+        'wallet_from_id': wallet_from_id,
+        'wallet_to_id': wallet_to_id,
+        'amount': amount,
+        'transaction_number': transaction_number,
+        'wallet_from_balance': new_balance_wallet_from,
+        'wallet_to_balance': new_balance_wallet_to,
     }
