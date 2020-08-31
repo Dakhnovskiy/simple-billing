@@ -107,7 +107,7 @@ async def create_client_and_wallet_in_db(login: str, name: str) -> dict:
     """
 
     client_id = await Client.create(login, name)
-    wallet_id = await Wallet.create(client_id, Decimal(0))
+    wallet_id = await Wallet.create(client_id, Decimal('0'))
 
     return {
         'id': client_id,

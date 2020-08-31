@@ -107,9 +107,9 @@ def create_resupplies_invalid_body(request):
             },
             'mock_data': {
                 'wallet_id': 123,
-                'amount': Decimal(50.34),
+                'amount': Decimal('50.34'),
                 'transaction_number': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
-                'wallet_balance': Decimal(76.331)
+                'wallet_balance': Decimal('76.331')
             },
         },
     ],
@@ -135,16 +135,16 @@ def create_resupplies_wallet_not_found(request):
 @pytest.fixture(
     params=[
         {
-            'params': {'wallet_id': 123, 'amount': Decimal(50.34)},
+            'params': {'wallet_id': 123, 'amount': Decimal('50.34')},
             'result': {
                 'wallet_id': 123,
-                'amount': Decimal(50.34),
+                'amount': Decimal('50.34'),
                 'transaction_number': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
-                'wallet_balance': Decimal(76.331)
+                'wallet_balance': Decimal('76.331')
             },
             'generate_transaction_number_mock_data': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
             'transaction_create_mock_data': 11,
-            'wallet_change_balance_mock_data': Decimal(76.331),
+            'wallet_change_balance_mock_data': Decimal('76.331'),
             'wallets_operation_create_mock_data': 5,
             'error_message': 'Wallet id 123 not found',
         },
@@ -153,3 +153,4 @@ def create_resupplies_wallet_not_found(request):
 )
 def create_resupply_data(request):
     return request.param
+

@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field, condecimal, root_validator
 class TransferCreateBase(BaseModel):
     wallet_from_id: int = Field(alias='walletFromId')
     wallet_to_id: int = Field(alias='walletToId')
-    amount: condecimal(gt=Decimal(0))
+    amount: condecimal(gt=Decimal('0'))
 
     class Config:
         allow_population_by_field_name = True

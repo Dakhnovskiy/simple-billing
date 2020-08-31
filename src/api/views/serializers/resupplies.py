@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, condecimal
 
 class ResupplyCreateBase(BaseModel):
     wallet_id: int = Field(alias='walletId')
-    amount: condecimal(gt=Decimal(0))
+    amount: condecimal(gt=Decimal('0'))
 
     class Config:
         allow_population_by_field_name = True

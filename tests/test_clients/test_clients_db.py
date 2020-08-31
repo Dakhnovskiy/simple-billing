@@ -24,7 +24,7 @@ async def test_create_client_and_wallet_in_db(db_connect, create_client_with_wal
 
     assert wallet_from_db is not None
     assert wallet_from_db['client_id'] == client_data['id']
-    assert wallet_from_db['balance'] == Decimal(0)
+    assert wallet_from_db['balance'] == Decimal('0')
 
 
 @pytest.mark.asyncio
