@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pytest
 
 
@@ -147,10 +149,10 @@ def create_transfers_invalid_body(request):
             'mock_data': {
                 'wallet_from_id': 123,
                 'wallet_to_id': 1234,
-                'amount': 50.34,
+                'amount': Decimal(50.34),
                 'transaction_number': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
-                'wallet_from_balance': 76.331,
-                'wallet_to_balance': 1234.22,
+                'wallet_from_balance': Decimal(76.331),
+                'wallet_to_balance': Decimal(1234.22),
             },
         },
     ],
@@ -183,4 +185,30 @@ def create_transfers_wallet_not_found(request):
     ids=['create_transfers_not_enough_balance']
 )
 def create_transfers_not_enough_balance(request):
+    return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'params': {'wallet_from_id': 123, 'wallet_to_id': 1234, 'amount': Decimal(50.34)},
+            'result': {
+                'wallet_from_id': 123,
+                'wallet_to_id': 1234,
+                'amount': Decimal(50.34),
+                'transaction_number': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
+                'wallet_from_balance': Decimal(76.331),
+                'wallet_to_balance': Decimal(76.331),
+            },
+            'generate_transaction_number_mock_data': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
+            'transaction_create_mock_data': 11,
+            'wallet_change_balance_mock_data': Decimal(76.331),
+            'wallets_operation_create_mock_data': 5,
+            'error_message_wallet_not_found': 'Wallet id 1234 not found',
+            'error_message_not_enough_balance': 'There are not enough balance in wallet id 123',
+        },
+    ],
+    ids=['create_transfer_data']
+)
+def create_transfer_data(request):
     return request.param
