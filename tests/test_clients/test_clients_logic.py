@@ -23,7 +23,7 @@ async def test_create_client_with_wallet(db_connect, create_client_with_wallet_d
 
 
 @pytest.mark.asyncio
-async def test_create_client_with_wallet_alexc_infoready_exists(db_connect, create_client_with_wallet_data):
+async def test_create_client_with_wallet_already_exists(db_connect, create_client_with_wallet_data):
     with patch(
         'src.models.Client.create',
         new=CoroutineMock(side_effect=ClientLoginAlreadyExists())
