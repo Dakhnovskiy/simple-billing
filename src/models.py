@@ -59,14 +59,6 @@ class Wallet:
         return wallet_id
 
     @classmethod
-    async def get(cls, wallet_id: int) -> dict:
-        query = wallets.select().where(wallets.c.id == wallet_id)
-        wallet_data = await db.fetch_one(query)
-        if wallet_data is None:
-            raise WalletNotFound(wallet_id)
-        return dict(wallet_data)
-
-    @classmethod
     async def change_balance(cls, wallet_id: int, amount: Decimal) -> Decimal:
         query = wallets.update().values(balance=wallets.c.balance + amount).where(wallets.c.id == wallet_id).returning(
             wallets.c.balance
