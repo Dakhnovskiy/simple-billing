@@ -1,4 +1,7 @@
+import uuid
 from decimal import Decimal
+
+from src.models import make_resupply_in_db
 
 
 async def make_resupply(wallet_id: int, amount: Decimal) -> dict:
@@ -8,7 +11,8 @@ async def make_resupply(wallet_id: int, amount: Decimal) -> dict:
     :param amount: amount
     :return: resupply info
     """
-    return {}
+    transaction_number = str(uuid.uuid4())
+    return await make_resupply_in_db(transaction_number, wallet_id, amount)
 
 
 async def make_transfer(wallet_from_id: int, wallet_to_id: int, amount: Decimal) -> dict:
