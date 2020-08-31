@@ -47,7 +47,12 @@ class Client:
     @classmethod
     async def create(cls, login: str, name: str) -> int:
         query = clients.insert().values(login=login, name=name)
-        client_id = await db.execute(query)
+        try:
+            client_id = await db.execute(query)
+        except UniqueViolationError as exc:
+            if 'clients_login_key' in exc.message:
+                raise ClientLoginAlreadyExists() from exc
+            raise
         return client_id
 
 
@@ -86,7 +91,7 @@ class Transaction:
 
 class WalletsOperation:
     @classmethod
-    async def create(cls, wallet_id: int, transaction_id: int, amount: Decimal) -> None:
+    async def create(cls, wallet_id: int, transaction_id: int, amount: Decimal) -> int:
         query = wallets_operations.insert().values(wallet_id=wallet_id, transaction_id=transaction_id, amount=amount)
         wallets_operation_id = await db.execute(query)
         return wallets_operation_id
@@ -101,13 +106,8 @@ async def create_client_and_wallet_in_db(login: str, name: str):
     :return: crated client info
     """
 
-    try:
-        client_id = await Client.create(login, name)
-        wallet_id = await Wallet.create(client_id, Decimal(0))
-    except UniqueViolationError as exc:
-        if 'clients_login_key' in exc.message:
-            raise ClientLoginAlreadyExists() from exc
-        raise
+    client_id = await Client.create(login, name)
+    wallet_id = await Wallet.create(client_id, Decimal(0))
 
     return {
         'id': client_id,
