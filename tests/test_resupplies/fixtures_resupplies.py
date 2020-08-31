@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pytest
 
 
@@ -127,4 +129,27 @@ def create_resupplies_valid_body(request):
     ids=['create_resupply_wallet_not_found']
 )
 def create_resupplies_wallet_not_found(request):
+    return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'params': {'wallet_id': 123, 'amount': Decimal(50.34)},
+            'result': {
+                'wallet_id': 123,
+                'amount': 50.34,
+                'transaction_number': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
+                'wallet_balance': 76.331
+            },
+            'generate_transaction_number_mock_data': '39ba4a9b-aa0c-4e81-a134-60271ebb49ed',
+            'transaction_create_mock_data': 11,
+            'wallet_change_balance_mock_data': Decimal(76.331),
+            'wallets_operation_create_mock_data': 5,
+            'error_message': 'Wallet id 123 not found',
+        },
+    ],
+    ids=['create_resupply_data']
+)
+def create_resupply_data(request):
     return request.param

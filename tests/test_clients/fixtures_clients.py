@@ -120,3 +120,23 @@ def create_clients_valid_body(request):
 )
 def create_client_already_exists(request):
     return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'params': {'login': 'login', 'name': 'Имя Имечко'},
+            'result': {
+                'id': 111,
+                'wallet_id': 222,
+                'login': 'login',
+                'name': 'Имя Имечко'
+            },
+            'client_create_mock_data': 111,
+            'wallet_create_mock_data': 222,
+        },
+    ],
+    ids=['create_client_with_wallet_data']
+)
+def create_client_with_wallet_data(request):
+    return request.param
