@@ -5,7 +5,8 @@ from asynctest import CoroutineMock
 from httpx import AsyncClient
 from fastapi import status
 
-from tests.fixtures_clients import create_clients_invalid_body, create_clients_valid_body
+from src.exceptions import ClientLoginAlreadyExists
+from tests.fixtures_clients import create_clients_invalid_body, create_clients_valid_body, create_client_already_exists
 
 
 @pytest.mark.asyncio
@@ -26,3 +27,16 @@ async def test_create_client(client: AsyncClient, create_clients_valid_body):
 
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == create_clients_valid_body['response_body']
+
+
+@pytest.mark.asyncio
+async def test_create_client_already_exists(client: AsyncClient, create_client_already_exists):
+
+    with patch(
+            'src.api.views.clients.create_client_with_wallet',
+            new=CoroutineMock(side_effect=ClientLoginAlreadyExists())
+    ):
+        response = await client.post('/clients', json=create_client_already_exists['request_body'])
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == create_client_already_exists['response_body']

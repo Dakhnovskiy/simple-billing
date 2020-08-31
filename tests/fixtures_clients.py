@@ -107,3 +107,16 @@ def create_clients_invalid_body(request):
 )
 def create_clients_valid_body(request):
     return request.param
+
+
+@pytest.fixture(
+    params=[
+        {
+            'request_body': {'login': 'myLogin', 'name': 'Иванов Иван'},
+            'response_body': {'detail': 'Client login already exists'},
+        },
+    ],
+    ids=['create_client_already_exists']
+)
+def create_client_already_exists(request):
+    return request.param
