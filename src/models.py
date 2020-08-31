@@ -6,7 +6,7 @@ from asyncpg import UniqueViolationError
 from sqlalchemy import CheckConstraint
 
 from src.app.db import metadata, db
-
+from src.exceptions import ClientLoginAlreadyExistsException
 
 clients = sa.Table(
     'clients',
@@ -72,7 +72,10 @@ async def create_client_and_wallet_in_db(login: str, name: str):
         client_id = await Client.create(login, name)
         wallet_id = await Wallet.create(client_id, Decimal(0))
     except UniqueViolationError as exc:
+        if 'clients_login_key' in exc.message:
+            raise ClientLoginAlreadyExistsException() from exc
         raise
+
     return {
         'id': client_id,
         'login': login,

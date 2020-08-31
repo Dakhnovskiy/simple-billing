@@ -4,6 +4,13 @@ class BillingOperationException(Exception):
         self.message = message
 
 
+class ClientLoginAlreadyExistsException(BillingOperationException):
+    ERROR_MESSAGE = 'Client login already exists'
+
+    def __init__(self, *args):
+        super().__init__(self.ERROR_MESSAGE, *args)
+
+
 class WalletExceptions(BillingOperationException):
     ERROR_MESSAGE: str
 
