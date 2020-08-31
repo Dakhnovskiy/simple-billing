@@ -98,7 +98,7 @@ class WalletsOperation:
 
 
 @db.transaction()
-async def create_client_and_wallet_in_db(login: str, name: str):
+async def create_client_and_wallet_in_db(login: str, name: str) -> dict:
     """
     Create client and wallet in database
     :param login: client login
@@ -140,7 +140,7 @@ async def make_resupply_in_db(transaction_number: str, wallet_id: int, amount: D
 
 
 @db.transaction()
-async def make_transfer_in_db(transaction_number: str, wallet_from_id: int, wallet_to_id: int, amount: Decimal):
+async def make_transfer_in_db(transaction_number: str, wallet_from_id: int, wallet_to_id: int, amount: Decimal) -> dict:
     """
     Transfer funds from one wallet to another in database
     :param transaction_number: transaction number
