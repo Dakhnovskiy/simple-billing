@@ -37,6 +37,6 @@ async def test_make_resupply_wallet_not_found(db_connect, create_resupply_data):
         'src.models.Wallet.change_balance',
         new=CoroutineMock(side_effect=WalletNotFound(create_resupply_data['params']['wallet_id']))
     ):
-        with pytest.raises(WalletNotFound) as excinfo:
+        with pytest.raises(WalletNotFound) as exc_info:
             await make_resupply(**create_resupply_data['params'])
-        assert excinfo.value.message == create_resupply_data['error_message']
+        assert exc_info.value.message == create_resupply_data['error_message']
