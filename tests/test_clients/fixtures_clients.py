@@ -134,6 +134,7 @@ def create_client_already_exists(request):
             },
             'client_create_mock_data': 111,
             'wallet_create_mock_data': 222,
+            'error_message': 'Client login already exists',
         },
     ],
     ids=['create_client_with_wallet_data']
