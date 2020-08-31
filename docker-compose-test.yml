@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  postgres:
+  postgres-test:
     image: postgres:12
     ports:
       - 5432:5432
@@ -25,11 +25,11 @@ services:
     environment:
       - ENVIRONMENT=TESTING
       - LOG_LEVEL=INFO
-      - PG_HOST=postgres
+      - PG_HOST=postgres-test
       - PG_PORT=5432
       - PG_USER=postgres
       - PG_PASSWORD=secret
       - PG_DB_NAME=billing_test
     depends_on:
-      postgres:
+      postgres-test:
         condition: service_healthy
