@@ -39,7 +39,7 @@ async def test_make_transfer_wallet_not_found(db_connect, create_transfer_data):
     ):
         with pytest.raises(WalletNotFound) as exc_info:
             await make_transfer(**create_transfer_data['params'])
-        assert exc_info.value.message == create_transfer_data['error_message_wallet_not_found']
+        assert exc_info.value.message == create_transfer_data['error_message_wallet_to_not_found']
 
 
 @pytest.mark.asyncio
