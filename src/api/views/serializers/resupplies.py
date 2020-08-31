@@ -19,4 +19,3 @@ class ResupplyCreateRequest(ResupplyCreateBase):
 class ResupplyCreateResponse(ResupplyCreateBase):
     transaction_number: UUID = Field(alias='transactionNumber')
     wallet_balance: condecimal() = Field(alias='walletBalance')
-
