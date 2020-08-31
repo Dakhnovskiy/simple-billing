@@ -6,7 +6,8 @@ from httpx import AsyncClient
 from fastapi import status
 
 from src.exceptions import ClientLoginAlreadyExists
-from tests.fixtures_clients import create_clients_invalid_body, create_clients_valid_body, create_client_already_exists
+from tests.test_clients.fixtures_clients import create_clients_invalid_body, create_clients_valid_body, \
+    create_client_already_exists
 
 
 @pytest.mark.asyncio

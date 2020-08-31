@@ -6,7 +6,7 @@ from httpx import AsyncClient
 from fastapi import status
 
 from src.exceptions import WalletNotFound
-from tests.fixtures_resupplies import create_resupplies_invalid_body, create_resupplies_valid_body, \
+from tests.test_resupplies.fixtures_resupplies import create_resupplies_invalid_body, create_resupplies_valid_body, \
     create_resupplies_wallet_not_found
 
 
