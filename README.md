@@ -1,7 +1,7 @@
 # simple-billing
 Simple billing service
 
-## Заупуск приложения
+## Запуск приложения
 `docker-compose up`
 
 ## Запуск тестов
