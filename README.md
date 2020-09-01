@@ -80,3 +80,14 @@ Simple billing service
       "walletToBalance": 1000.0
     }
 
+
+## Стек
+
+* FastAPI - Вэб фреймворк
+* Databases[asyncpg, SQLAlchemy] -  Абстракция для аснихронной работы с БД (берёт на себя управление пулом коннектов, транзакциями и т.д.)
+* Alembic - Управление миграциями модели данных
+* PostgreSQL - РСУБД
+* Python 3.8 - Язык разработки
+
+
+    
