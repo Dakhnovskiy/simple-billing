@@ -57,7 +57,7 @@ Simple billing service
 
 **Перевод денежных средств с одного кошелька на другой**
 
-`POST: /resupplies`
+`POST: /transfers`
 
 Пример запроса
 
